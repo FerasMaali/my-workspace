@@ -9,8 +9,9 @@
     home_dir: "/home/{{ username }}"
 
   roles:
-    - kubectl
-    - docker
+    - andrewrothstein.kubectl
+    - nickjj.docker
+    - andrewrothstein.minikube
 
   tasks:
   - name: Format Ansible output
@@ -37,6 +38,11 @@
       - python3
       - curl
       - zsh
+      - qemu
+      - qemu-kvm
+      - libvirt-bin
+      - bridge-utils
+      - virt-manager
 
   - name: Get Amix vimrc
     git:
@@ -82,50 +88,9 @@
       regexp: ".*plugins=.*"
       line: "plugins=(git docker-compose docker vagrant vi-mode aws kubectl minikube pip)"
 
-  # - name: Install Docker 1
-  #   apt:
-  #     name: "{{ item }}"
-  #     state: absent
-  #   loop:
-  #     - docker
-  #     - docker-engine
-  #     - docker.io
-  #     - containerd
-  #     - runc
+  - name: Start and enable libvirtd
+    systemd:
+      name: libvirtd
+      state: started
+      enabled: yes
 
-  # - name: Install Docker 2
-  #   apt:
-  #     name: "{{ item }}"
-  #     state: present
-  #   loop:
-  #     - apt-transport-https
-  #     - ca-certificates
-  #     - curl
-  #     - gnupg-agent
-  #     - software-properties-common
-
-  # - name: Install Docker 3
-  #   apt_key:
-  #     url: "https://download.docker.com/linux/ubuntu/gpg"
-  #     state: present
-
-  # - name: Install Docker 4
-  #   apt_repository:
-  #     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-  #     state: present
-  #     mode: 600
-
-  # - name: Install Docker 5
-  #   apt:
-  #     name: "{{ item }}"
-  #     state: present
-  #     update_cache: yes
-  #   loop:
-  #     - docker-ce
-  #     - docker-ce-cli
-  #     - containerd.io
-
-  # - name: Add user vagrant to group docker
-  #   user:
-  #     name: "{{ username }}"
-  #     group: "docker"
