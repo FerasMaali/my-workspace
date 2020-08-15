@@ -1,0 +1,131 @@
+---
+
+- hosts: all
+  connection: local
+  become: yes
+
+  vars:
+    username: "vagrant"
+    home_dir: "/home/{{ username }}"
+
+  roles:
+    - kubectl
+    - docker
+
+  tasks:
+  - name: Format Ansible output
+    lineinfile:
+      path: /etc/ansible/ansible.cfg
+      regexp: "{{ item.regexp_val }}"
+      line: "{{ item.line_val }}"
+      insertafter: "^\\[defaults\\]$"
+    loop:
+      - {regexp_val: '.*stdout_callback = .*', line_val: 'stdout_callback = yaml'}
+      - {regexp_val: '.*bin_ansible_callbacks = .*', line_val: 'bin_ansible_callbacks = True'}
+
+  - name: Update & Upgrade system
+    apt:
+      update_cache: yes
+      upgrade: full
+
+  - name: Install required packages
+    apt:
+      update_cache: yes
+      pkg:
+      - git
+      - vim
+      - python3
+      - curl
+      - zsh
+
+  - name: Get Amix vimrc
+    git:
+      repo: https://github.com/amix/vimrc.git
+      dest: "{{ home_dir }}/.vim_runtime"
+      depth: 1
+      version: master
+
+  - name: Install Amix vimrc
+    shell : "sh ~/.vim_runtime/install_awesome_vimrc.sh"
+    become: yes
+    become_user: "{{ username }}"
+
+  - name: Get zsh directory
+    command: "which zsh"
+    register: zsh_dir
+
+  - name: Set zsh as default shell
+    user:
+      name: "{{ username }}"
+      shell: "{{ zsh_dir.stdout }}"
+
+  - name: Find if Oh-My-Zsh is already installed
+    stat:
+      path: "{{ home_dir }}/.oh-my-zsh"
+    register: oh_my_zsh_dir_info
+
+  - name: Install Oh-My-Zsh
+    shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    become: yes
+    become_user: "{{ username }}"
+    when: not oh_my_zsh_dir_info.stat.exists
+
+  - name: Set zsh theme
+    lineinfile:
+      path: "{{ home_dir }}/.zshrc"
+      regexp: ".*ZSH_THEME=.*"
+      line: "ZSH_THEME=\"flazz\""
+
+  - name: Enable zsh plugins
+    lineinfile:
+      path: "{{ home_dir }}/.zshrc"
+      regexp: ".*plugins=.*"
+      line: "plugins=(git docker-compose docker vagrant vi-mode aws kubectl minikube pip)"
+
+  # - name: Install Docker 1
+  #   apt:
+  #     name: "{{ item }}"
+  #     state: absent
+  #   loop:
+  #     - docker
+  #     - docker-engine
+  #     - docker.io
+  #     - containerd
+  #     - runc
+
+  # - name: Install Docker 2
+  #   apt:
+  #     name: "{{ item }}"
+  #     state: present
+  #   loop:
+  #     - apt-transport-https
+  #     - ca-certificates
+  #     - curl
+  #     - gnupg-agent
+  #     - software-properties-common
+
+  # - name: Install Docker 3
+  #   apt_key:
+  #     url: "https://download.docker.com/linux/ubuntu/gpg"
+  #     state: present
+
+  # - name: Install Docker 4
+  #   apt_repository:
+  #     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+  #     state: present
+  #     mode: 600
+
+  # - name: Install Docker 5
+  #   apt:
+  #     name: "{{ item }}"
+  #     state: present
+  #     update_cache: yes
+  #   loop:
+  #     - docker-ce
+  #     - docker-ce-cli
+  #     - containerd.io
+
+  # - name: Add user vagrant to group docker
+  #   user:
+  #     name: "{{ username }}"
+  #     group: "docker"

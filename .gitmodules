@@ -1,0 +1,6 @@
+[submodule "Ansible/roles/kubectl"]
+	path = Ansible/roles/kubectl
+	url = https://github.com/andrewrothstein/ansible-kubectl.git
+[submodule "Ansible/roles/docker"]
+	path = Ansible/roles/docker
+	url = https://github.com/nickjj/ansible-docker.git
