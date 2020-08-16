@@ -43,6 +43,7 @@
       - libvirt-bin
       - bridge-utils
       - virt-manager
+      - tree
 
   - name: Get Amix vimrc
     git:
@@ -94,3 +95,10 @@
       state: started
       enabled: yes
 
+  - name: Make sure tmux starts automatically
+    blockinfile:
+      path: "{{ home_dir }}/.zshrc"
+      block: |
+        if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+          exec tmux
+        fi
