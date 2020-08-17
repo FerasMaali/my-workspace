@@ -12,6 +12,7 @@
     - andrewrothstein.kubectl
     - nickjj.docker
     - andrewrothstein.minikube
+    - geerlingguy.java
 
   tasks:
   - name: Format Ansible output

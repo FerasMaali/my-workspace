@@ -7,3 +7,6 @@
 [submodule "Ansible/roles/minikube"]
 	path = Ansible/roles/andrewrothstein.minikube
 	url = https://github.com/andrewrothstein/ansible-minikube.git
+[submodule "Ansible/roles/geerlingguy.java"]
+	path = Ansible/roles/geerlingguy.java
+	url = https://github.com/geerlingguy/ansible-role-java.git
