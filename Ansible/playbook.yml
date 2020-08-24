@@ -78,6 +78,13 @@
     become: yes
     become_user: "{{ username }}"
 
+  - name: Add my_configs.vim to amix/vimrc configs
+    get_url:
+      url: https://gist.githubusercontent.com/FerasMaali/c8f6db47cd2a91d01653dbf7691fc404/raw/my_configs.vim
+      dest: "{{ home_dir }}/.vim_runtime/my_configs.vim"
+    become: yes
+    become_user: "{{ username }}"
+
   - name: Get zsh directory
     command: "which zsh"
     register: zsh_dir
@@ -137,3 +144,4 @@
       dest: "{{ home_dir }}/.gitconfig"
     become: yes
     become_user: "{{ username }}"
+
