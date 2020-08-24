@@ -60,6 +60,23 @@
     become: yes
     become_user: "{{ username }}"
 
+  - name: Create ~/.vim_runtime/my_plugins
+    file:
+      path: ~/.vim_runtime/my_plugins
+      state: directory
+    become: yes
+    become_user: "{{ username }}"
+
+  - name: Add additional vim plugins
+    git:
+      repo: "{{ item.repo }}"
+      dest: "{{ home_dir }}/.vim_runtime/my_plugins/{{ item.dest }}"
+      version: master
+    loop:
+      - { repo: "https://github.com/ekalinin/dockerfile.vim", dest: "Dockerfile" }
+    become: yes
+    become_user: "{{ username }}"
+
   - name: Get zsh directory
     command: "which zsh"
     register: zsh_dir
