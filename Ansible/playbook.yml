@@ -52,6 +52,8 @@
       dest: "{{ home_dir }}/.vim_runtime"
       depth: 1
       version: master
+    become: yes
+    become_user: "{{ username }}"
 
   - name: Install Amix vimrc
     shell : "sh ~/.vim_runtime/install_awesome_vimrc.sh"
