@@ -74,6 +74,7 @@
       version: master
     loop:
       - { repo: "https://github.com/ekalinin/dockerfile.vim", dest: "Dockerfile" }
+      - { repo: "https://github.com/pearofducks/ansible-vim", dest: "Ansible" }
     become: yes
     become_user: "{{ username }}"
 
