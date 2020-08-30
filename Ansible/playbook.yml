@@ -82,6 +82,7 @@
     get_url:
       url: https://gist.githubusercontent.com/FerasMaali/c8f6db47cd2a91d01653dbf7691fc404/raw/my_configs.vim
       dest: "{{ home_dir }}/.vim_runtime/my_configs.vim"
+      mode: "666"
     become: yes
     become_user: "{{ username }}"
 

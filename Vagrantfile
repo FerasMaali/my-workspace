@@ -11,8 +11,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     vb.gui = false
-    vb.memory = "4096"
-    vb.cpus = 2
+    vb.memory = "8192"
+    vb.cpus = 4
 
     # Enable nested VT-x
     vb.customize ["modifyvm", :id, "--nested-hw-virt", "on"]
