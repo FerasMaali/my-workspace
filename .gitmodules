@@ -10,3 +10,6 @@
 [submodule "Ansible/roles/geerlingguy.java"]
 	path = Ansible/roles/geerlingguy.java
 	url = https://github.com/geerlingguy/ansible-role-java.git
+[submodule "Ansible/andrewrothstein.skaffold"]
+	path = Ansible/andrewrothstein.skaffold
+	url = https://github.com/andrewrothstein/ansible-skaffold.git

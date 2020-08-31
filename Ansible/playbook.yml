@@ -13,6 +13,7 @@
     - nickjj.docker
     - andrewrothstein.minikube
     - geerlingguy.java
+    - andrewrothstein.skaffold
 
   tasks:
   - name: Format Ansible output
@@ -54,11 +55,13 @@
       version: master
     become: yes
     become_user: "{{ username }}"
+    register: getting_amix_result
 
   - name: Install Amix vimrc
     shell : "sh ~/.vim_runtime/install_awesome_vimrc.sh"
     become: yes
     become_user: "{{ username }}"
+    when: getting_amix_result.changed
 
   - name: Create ~/.vim_runtime/my_plugins
     file:
@@ -89,6 +92,7 @@
   - name: Get zsh directory
     command: "which zsh"
     register: zsh_dir
+    changed_when: False
 
   - name: Set zsh as default shell
     user:
