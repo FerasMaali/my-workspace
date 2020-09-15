@@ -46,6 +46,8 @@
       - bridge-utils
       - virt-manager
       - tree
+      - zip
+      - unzip
 
   - name: Get Amix vimrc
     git:
