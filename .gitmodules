@@ -13,3 +13,6 @@
 [submodule "Ansible/andrewrothstein.skaffold"]
 	path = Ansible/andrewrothstein.skaffold
 	url = https://github.com/andrewrothstein/ansible-skaffold.git
+[submodule "workspace-setup"]
+	path = workspace-setup
+	url = https://github.com/FerasMaali/workspace-setup.git

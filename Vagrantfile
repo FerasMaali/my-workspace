@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "Ansible/playbook.yml"
+    ansible.playbook = "workspace-setup/main.yml"
     ansible.install_mode = "default"
   end
 end
